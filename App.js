@@ -1,40 +1,51 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
-import { AuthButton } from './components';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
+import AuthScreen from './screens/AuthScreen';
+import WelcomeScreen from './screens/WelcomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import NewAccountScreen from './screens/NewAccountScreen';
+import MainScreen from './screens/MainScreen';
 
 export default class App extends React.Component {
   render() {
+    const MainNavigator = createBottomTabNavigator({
+      welcome: { screen: WelcomeScreen },
+      auth: {
+        screen: createStackNavigator({
+          auth: {
+            screen: AuthScreen,
+            navigationOptions: {
+              header: null
+            }
+          },
+          login: {
+            screen: LoginScreen,
+            navigationOptions: {
+              title: 'Login',
+              headerTintColor: '#fff',
+              headerStyle: {
+                backgroundColor: '#3f2141'
+              }
+            }
+          },
+          newAccount: {
+            screen: NewAccountScreen,
+            navigationOptions: {
+              title: 'Create Account',
+              headerTintColor: '#fff',
+              headerStyle: {
+                backgroundColor: '#3f2141'
+              }
+            }
+          }
+        }),
+      },
+      main: { screen: MainScreen }
+    })
+
     return (
-      <View style={styles.container}>
-        <Image style={styles.logoStyle} source={require('./assets/logo_test.png')} />
-        <Text style={styles.textStyle}>Predictor</Text>
-        <AuthButton title='Create an Account' backgroundColor='#eb4454' />
-        <AuthButton title='Sign in with Email' backgroundColor='#3c143c' />
-        <AuthButton title='Sign in with Facebook' backgroundColor='#3b5998' />
-      </View>
+      <MainNavigator />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#75e785',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoStyle: {
-    top: SCREEN_HEIGHT * -0.1,
-    width: 100,
-    height: 120
-  },
-  textStyle: {
-    top: SCREEN_HEIGHT * -0.05,
-    fontSize: 32,
-    fontFamily: 'Verdana',
-    fontWeight: 'bold',
-    color: '#3f2141'
-  },
-});

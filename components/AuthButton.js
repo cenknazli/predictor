@@ -3,19 +3,20 @@ import { View, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-const AuthButton = ({title, backgroundColor}) => {
+const AuthButton = ({title, backgroundColor, onPress}) => {
   return (
     <View>
       <Button
         title={title}
         backgroundColor={backgroundColor}
         color='white'
-        fontFamily='Verdana'
+        fontFamily='System'
         fontWeight='bold'
         rounded={true}
         buttonStyle={styles.buttonStyle}
+        raised
+        onPress={onPress}
       />
     </View>
   );
