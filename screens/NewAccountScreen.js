@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import SignupForm from '../components/SignupForm';
+import { createUser } from '../actions';
 
 class NewAccountScreen extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    this.onAuthComplete(nextProps);
+  }
+
+  onAuthComplete(props) {
+    if (props.user) {
+      this.props.navigation.navigate('main');
+    }
+  }
+
   render() {
     return(
       <View style={styles.container}>
-        <Text>New Account Screen</Text>
-        <Text>New Account Screen</Text>
-        <Text>New Account Screen</Text>
-        <Text>New Account Screen</Text>
-        <Text>New Account Screen</Text>
-        <Text>New Account Screen</Text>
-        <Text>New Account Screen</Text>
+        <SignupForm />
       </View>
     );
   }
@@ -23,7 +31,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#75e785',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
 
-export default NewAccountScreen;
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+
+  return { user };
+}
+
+export default connect(mapStateToProps, { createUser })(NewAccountScreen);
